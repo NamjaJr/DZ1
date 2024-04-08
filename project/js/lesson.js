@@ -18,13 +18,14 @@
 
 //Recursion -Рекурсия
 
-let count = 0
-const increment = () => {
-    count ++
-    console.log(count)
-    if (count < 500) {
-        increment()
-    }
+// let count = 0
+// const increment = () => {
+//     count ++
+//     console.log(count)
+//     if (count < 500) {
+//         increment()
+//     }
+//
+// }
+// increment()
 
-}
-increment()

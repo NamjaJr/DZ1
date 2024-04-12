@@ -13,51 +13,48 @@
 //     }
 // }
 
-const parentBlock = document.querySelector('.parent_block')
-const childBlock = document.querySelector('.child_block')
-
-
-const maxParentWidth = parentBlock.offsetWidth - childBlock.offsetWidth
-const maxParentHeight = parentBlock.offsetHeight - childBlock.offsetHeight
-
-let positionX = 0
-let positionY = 0
-
-let moveRight = maxParentWidth
-let moveTop = maxParentHeight
-
-
-const moveBlock = () => {
-    if (positionX < maxParentWidth) {
-        positionX += 2
-        childBlock.style.left = `${positionX}px`
-        requestAnimationFrame(moveBlock)
-    } else if (positionX >= maxParentWidth && positionY < maxParentHeight) {
-        positionY += 2
-        childBlock.style.top = `${positionY}px`
-        requestAnimationFrame(moveBlock)
-    } else if (positionY >= maxParentHeight && moveRight > 0) {
-        moveRight -= 2
-        childBlock.style.left = `${moveRight}px`
-        requestAnimationFrame(moveBlock)
-    } else if (moveRight <= 0 && moveTop > 0) {
-        moveTop -= 2
-        childBlock.style.top = `${moveTop}px`
-        requestAnimationFrame(moveBlock)
-    }else if (moveTop<=0) {
-        positionX = 0
-        positionY = 0
-        moveRight = maxParentWidth
-        moveTop = maxParentHeight
-        moveBlock()
-    }
-}
-
-
-moveBlock()
-
-
-
+// const parentBlock = document.querySelector('.parent_block')
+// const childBlock = document.querySelector('.child_block')
+//
+//
+// const maxParentWidth = parentBlock.offsetWidth - childBlock.offsetWidth
+// const maxParentHeight = parentBlock.offsetHeight - childBlock.offsetHeight
+//
+// let positionX = 0
+// let positionY = 0
+//
+// let moveRight = maxParentWidth
+// let moveTop = maxParentHeight
+//
+//
+// const moveBlock = () => {
+//     if (positionX < maxParentWidth) {
+//         positionX += 2
+//         childBlock.style.left = `${positionX}px`
+//         requestAnimationFrame(moveBlock)
+//     } else if (positionX >= maxParentWidth && positionY < maxParentHeight) {
+//         positionY += 2
+//         childBlock.style.top = `${positionY}px`
+//         requestAnimationFrame(moveBlock)
+//     } else if (positionY >= maxParentHeight && moveRight > 0) {
+//         moveRight -= 2
+//         childBlock.style.left = `${moveRight}px`
+//         requestAnimationFrame(moveBlock)
+//     } else if (moveRight <= 0 && moveTop > 0) {
+//         moveTop -= 2
+//         childBlock.style.top = `${moveTop}px`
+//         requestAnimationFrame(moveBlock)
+//     }else if (moveTop<=0) {
+//         positionX = 0
+//         positionY = 0
+//         moveRight = maxParentWidth
+//         moveTop = maxParentHeight
+//         moveBlock()
+//     }
+// }
+//
+//
+// moveBlock()
 
 
 

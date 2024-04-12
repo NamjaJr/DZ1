@@ -45,6 +45,7 @@
     flex-direction: column;
     justify-content: center;
     height: 170px;
+    display: none;
 }
 
 .tab_content_block p {

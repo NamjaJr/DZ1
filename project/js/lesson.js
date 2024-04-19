@@ -60,3 +60,95 @@ const auto = (index = 0) => {
 }
 auto()
 
+//Converter
+const usdInput = document.querySelector('#usd')
+const somInput = document.querySelector('#som')
+
+somInput.addEventListener('input', () => {
+    const request = new XMLHttpRequest()
+    request.open('GET', '../data/converter.json')
+    request.setRequestHeader('Content-type', 'application/json')
+    request.send()
+
+    request.addEventListener('load', () => {
+        const data = JSON.parse(request.response)
+        usdInput.value = (somInput.value / data.usd).toFixed(2)
+    })
+})
+
+const converter = (element, target, current) => {
+    element.oninput = () => {
+        const request = new XMLHttpRequest()
+        request.open('GET', '../data/converter.json')
+        request.setRequestHeader('Content-type', 'application/json')
+        request.send()
+
+        request.onload = () => {
+            const data = JSON.parse(request.response)
+            switch (current) {
+                case 'som':
+                    target.value = (element.value/data.usd).toFixed(2)
+                    break
+                case 'usd':
+                    target.value = (element.value * data.usd).toFixed(2)
+                    break
+                default:
+                    break
+            }
+            element.value === '' ? target.value = '' : ''
+        }
+    }
+}
+
+converter(somInput, usdInput, 'som')
+converter(usdInput, somInput, 'usd')
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const converter = (element, target1, target2, data) => {
+        element.oninput = () => {
+            const inputValue = parseFloat(element.value);
+            if (!isNaN(inputValue)) {
+                switch (element.id) {
+                    case 'som':
+                        target1.value = (inputValue / data.usd).toFixed(2);
+                        target2.value = (inputValue / data.eur).toFixed(2);
+                        break;
+                    case 'usd':
+                        target1.value = (inputValue * data.usd).toFixed(2);
+                        target2.value = (inputValue * data.usd / data.eur).toFixed(2);
+                        break;
+                    case 'eur':
+                        target1.value = (inputValue * data.eur).toFixed(2);
+                        target2.value = (inputValue * data.eur / data.usd).toFixed(2);
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                target1.value = '';
+                target2.value = '';
+            }
+        }
+    }
+
+    const somInput = document.getElementById('som');
+    const usdInput = document.getElementById('usd');
+    const eurInput = document.getElementById('eur');
+
+    const request = new XMLHttpRequest();
+    request.open('GET', '../data/converter.json');
+    request.setRequestHeader('Content-type', 'application/json');
+    request.send();
+
+    request.onload = () => {
+        const data = JSON.parse(request.response);
+        converter(somInput, usdInput, eurInput, data);
+        converter(usdInput, somInput, eurInput, data);
+        converter(eurInput, somInput, usdInput, data);
+    }
+});
+
+
+

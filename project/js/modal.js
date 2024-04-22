@@ -31,10 +31,10 @@ const scrollEnd =() =>{
     }
 }
 
-const autoModal = setInterval(() =>{
-    openModal()
-},10000)
-
-window.addEventListener('scroll', scrollEnd)
-
-
+// const autoModal = setInterval(() =>{
+//     openModal()
+// },10000)
+//
+// window.addEventListener('scroll', scrollEnd)
+//
+//

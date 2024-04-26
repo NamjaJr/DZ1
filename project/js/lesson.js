@@ -1,24 +1,29 @@
 //PHONE BLOCK
 
-// const phoneInput = document.querySelector('#phone_input')
-// const phoneButton = document.querySelector('#phone_button')
-// const phoneSpan = document.querySelector('#phone_span')
-//
-// const regExp = /^\+996[2579]\d{2} \d{2}-\d{2}-\d{2}$/
-//
-// phoneButton.onclick = () => {
-//     if (regExp.test(phoneInput.value)) {
-//         phoneSpan.innerHTML = 'ОК'
-//         phoneSpan.style.color = 'green'
-//     }else  {
-//         phoneSpan.innerHTML = 'NOT OK'
-//         phoneSpan.style.color = 'red'
-//     }
-// }
+const phoneInput = document.querySelector('#phone_input')
+const phoneButton = document.querySelector('#phone_button')
+const phoneSpan = document.querySelector('#phone_result')
+
+const regExp = /^\+996 [2579]\d{2} \d{2}-\d{2}-\d{2}$/
+
+phoneButton.onclick = () => {
+    if (regExp.test(phoneInput.value)) {
+        phoneSpan.innerHTML = 'ОК'
+        phoneSpan.style.color = 'green'
+    }else  {
+        phoneSpan.innerHTML = 'NOT OK'
+        phoneSpan.style.color = 'red'
+    }
+}
+
+
+//TAB SLIDER
 
 const tabContentBlock = document.querySelectorAll('.tab_content_block')
 const tabContentItems = document.querySelectorAll('.tab_content_item')
 const tabParent = document.querySelector('.tab_content_items')
+let autoInterval; // Объявляем переменную для хранения интервального таймера
+
 const hideTabContent = () => {
     tabContentBlock.forEach((item) =>{
         item.style.display = 'none'
@@ -38,27 +43,26 @@ showTabContent(0)
 
 tabParent.onclick = (event) => {
     if (event.target.classList.contains('tab_content_item')) {
-        tabContentItems.forEach((item,index) =>{
-            if (event.target === item) {
-                hideTabContent()
-                showTabContent(index)
-            }
-
-        })
+        const index = Array.from(tabContentItems).indexOf(event.target); // Получаем индекс элемента, на который кликнул пользователь
+        clearInterval(autoInterval); // Останавливаем интервальный таймер
+        hideTabContent();
+        showTabContent(index);
+        autoInterval = setInterval(auto, 3000); // Запускаем интервальный таймер заново
     }
 }
 
-const auto = (index = 0) => {
-    setInterval(() => {
-        index++
-        if (index > tabContentItems.length - 1) {
-            index = 0
-        }
-        hideTabContent()
-        showTabContent(index)
-    }, 3000)
+const auto = () => {
+    let currentIndex = Array.from(tabContentItems).findIndex(item => item.classList.contains('tab_content_item_active'));
+    currentIndex++;
+    if (currentIndex > tabContentItems.length - 1) {
+        currentIndex = 0;
+    }
+    hideTabContent();
+    showTabContent(currentIndex);
 }
-auto()
+
+autoInterval = setInterval(auto, 3000); // Запускаем интервальный таймер
+
 
 //Converter
 const usdInput = document.querySelector('#usd')
@@ -150,25 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 })
 
-//CARD SWITCHER
 
-// const card = document.querySelector('.card')
-// const btnNext = document.querySelector('#btn-next')
-// const btnPrev = document.querySelector('#btn-prev')
-//
-// let count = 0
-//
-// btnNext.onclick = () => {
-//     fetch(`https://jsonplaceholder.typicode.com/todos/${count}`)
-//         .then(response => respone.json())
-//         .then(data => {
-//             card.innerHTML = `
-//                 <p>${data.title}</p>
-//                 <p style="color: ${data.complited ? 'green' : 'red'}">${data.comlited}</p>
-//                 <span>${data.id}</span>
-//             `
-//         })
-// }
 
 //CARD SWITCHER
 
@@ -220,11 +206,62 @@ slideCard(btnPrev, 'prev')
 
 
 
-// fetch('https://jsonplaceholder.typicode.com/posts')
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data)
-//     })
-//     .catch(error => {
-//         console.error('Ошибка при загрузке данных:', error)
-//     })
+async function fetchData() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке данных');
+        }
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+    }
+}
+
+fetchData();
+
+
+
+
+//WEATHER
+
+const searchInput = document.querySelector('.cityName');
+const btnSearch = document.querySelector('#btn-search');
+const cityName = document.querySelector('.city');
+const tempCity = document.querySelector('.temp');
+
+const API_KEY = 'e417df62e04d3b1b111abeab19cea714';
+const BASE_API = 'http://api.openweathermap.org/data/2.5/weather';
+
+const fetchWeatherData = async (cityName) => {
+    try {
+        const response = await fetch(`${BASE_API}?q=${cityName}&appid=${API_KEY}`);
+        if (!response.ok) {
+            throw new Error('Город не найден...');
+        }
+        const data = await response.json();
+        cityName.innerHTML = data.name || 'Город не найден...';
+        tempCity.innerHTML = data.main?.temp ? Math.round(data.main?.temp - 273) + '&deg;C' : '...';
+    } catch (error) {
+        console.error('Ошибка при загрузке данных:', error);
+        cityName.innerHTML = 'Город не найден...';
+        tempCity.innerHTML = '...';
+    }
+};
+
+const citySearch = () => {
+    searchInput.oninput = (event) => {
+        fetchWeatherData(event.target.value);
+    };
+};
+
+citySearch();
+
+
+
+
+
+
+
+

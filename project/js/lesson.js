@@ -226,27 +226,28 @@ fetchData();
 
 //WEATHER
 
+
 const searchInput = document.querySelector('.cityName');
 const btnSearch = document.querySelector('#btn-search');
-const cityName = document.querySelector('.city');
-const tempCity = document.querySelector('.temp');
+const cityElement = document.querySelector('.city');
+const tempElement = document.querySelector('.temp');
 
 const API_KEY = 'e417df62e04d3b1b111abeab19cea714';
 const BASE_API = 'http://api.openweathermap.org/data/2.5/weather';
 
-const fetchWeatherData = async (cityName) => {
+const fetchWeatherData = async (city) => {
     try {
-        const response = await fetch(`${BASE_API}?q=${cityName}&appid=${API_KEY}`);
+        const response = await fetch(`${BASE_API}?q=${city}&appid=${API_KEY}`);
         if (!response.ok) {
             throw new Error('Город не найден...');
         }
         const data = await response.json();
-        cityName.innerHTML = data.name || 'Город не найден...';
-        tempCity.innerHTML = data.main?.temp ? Math.round(data.main?.temp - 273) + '&deg;C' : '...';
+        cityElement.innerHTML = data.name || 'Город не найден...';
+        tempElement.innerHTML = data.main?.temp ? `${Math.round(data.main?.temp - 273)}&deg;C` : '...';
     } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
-        cityName.innerHTML = 'Город не найден...';
-        tempCity.innerHTML = '...';
+        cityElement.innerHTML = 'Город не найден...';
+        tempElement.innerHTML = '...';
     }
 };
 
@@ -257,8 +258,6 @@ const citySearch = () => {
 };
 
 citySearch();
-
-
 
 
 

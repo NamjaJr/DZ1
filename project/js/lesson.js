@@ -22,7 +22,7 @@ phoneButton.onclick = () => {
 const tabContentBlock = document.querySelectorAll('.tab_content_block')
 const tabContentItems = document.querySelectorAll('.tab_content_item')
 const tabParent = document.querySelector('.tab_content_items')
-let autoInterval; // Объявляем переменную для хранения интервального таймера
+let autoInterval
 
 const hideTabContent = () => {
     tabContentBlock.forEach((item) =>{
@@ -43,11 +43,11 @@ showTabContent(0)
 
 tabParent.onclick = (event) => {
     if (event.target.classList.contains('tab_content_item')) {
-        const index = Array.from(tabContentItems).indexOf(event.target); // Получаем индекс элемента, на который кликнул пользователь
-        clearInterval(autoInterval); // Останавливаем интервальный таймер
-        hideTabContent();
-        showTabContent(index);
-        autoInterval = setInterval(auto, 3000); // Запускаем интервальный таймер заново
+        const index = Array.from(tabContentItems).indexOf(event.target)
+        clearInterval(autoInterval)
+        hideTabContent()
+        showTabContent(index)
+        autoInterval = setInterval(auto, 3000)
     }
 }
 
@@ -57,11 +57,11 @@ const auto = () => {
     if (currentIndex > tabContentItems.length - 1) {
         currentIndex = 0;
     }
-    hideTabContent();
-    showTabContent(currentIndex);
+    hideTabContent()
+    showTabContent(currentIndex)
 }
 
-autoInterval = setInterval(auto, 3000); // Запускаем интервальный таймер
+autoInterval = setInterval(auto, 3000)
 
 
 //Converter
@@ -164,7 +164,7 @@ const btnPrev = document.querySelector('#btn-prev')
 
 let count = 1
 
-const getrequest = async () =>{
+const getRequest = async () =>{
     try{
         const url = await `https://jsonplaceholder.typicode.com/todos/${count}`
         const response= await fetch(url)
@@ -182,7 +182,7 @@ const getrequest = async () =>{
     }
 }
 const slideCard= (button, current) =>{
-    getrequest()
+    getRequest()
     button.onclick =() =>{
         switch(current){
             case 'next':

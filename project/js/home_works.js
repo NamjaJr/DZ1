@@ -1,18 +1,22 @@
+//
 const gmailInput = document.querySelector('#gmail_input')
 const gmailButton = document.querySelector('#gmail_button')
 const gmailSpan = document.querySelector('#gmail_result')
 
-const regExp = /^[a-z\d._%+-]+@gmail\.com$/i
+const regExp = /^[a-z]{3,}[\w._%+-]*@gmail\.com$/i
 gmailButton.onclick = () => {
     if (regExp.test(gmailInput.value)) {
         gmailSpan.innerHTML = 'Успешно!'
         gmailSpan.style.color = 'green'
     } else {
-        gmailSpan.innerHTML = 'Ошибка'
+        gmailSpan.innerHTML = 'Ошибка!'
         gmailSpan.style.color = 'red'
     }
 }
 
+
+
+///
 const parentBlock = document.querySelector('.parent_block')
 const childBlock = document.querySelector('.child_block')
 
@@ -57,7 +61,7 @@ const moveBlock = () => {
 moveBlock()
 
 
-
+///
 const startBtn = document.getElementById('start');
 const stopBtn = document.getElementById('stop');
 const resetBtn = document.getElementById('reset');

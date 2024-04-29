@@ -158,64 +158,55 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //CARD SWITCHER
 
-const card = document.querySelector('.card')
-const btnNext = document.querySelector('#btn-next')
-const btnPrev = document.querySelector('#btn-prev')
+const card = document.querySelector('.card');
+const btnNext = document.querySelector('#btn-next');
+const btnPrev = document.querySelector('#btn-prev');
 
-let count = 1
+let count = 1;
 
-const getRequest = async () =>{
-    try{
-        const url = await `https://jsonplaceholder.typicode.com/todos/${count}`
-        const response= await fetch(url)
-        const data= await response.json()
-        const getData= await (() =>{
-            card.innerHTML=`
-                <p>${data.title}</p>
-                <p style ='color:  ${data.completed ? 'green':'red'} '> ${data.completed}</p>
-                <span>${data.id }</span>
-            `
-        })
-        getData()
-    }catch (error){
-        console.log()
+const getRequest = async () => {
+    try {
+        const url = `https://jsonplaceholder.typicode.com/todos/${count}`
+        const response = await fetch(url);
+        const data = await response.json();
+        card.innerHTML = `
+            <p>${data.title}</p>
+            <p style ='color: ${data.completed ? 'green' : 'red'}'>${data.completed}</p>
+            <span>${data.id}</span>
+        `;
+    } catch (error) {
+        console.log(error);
     }
-}
-const slideCard= (button, current) =>{
-    getRequest()
-    button.onclick =() =>{
-        switch(current){
+};
+
+const slideCard = (button, direction) => {
+    button.onclick = () => {
+        switch (direction) {
             case 'next':
-                if(count===200){
-                    count=0
-                }
-                count++
+                count = (count % 200) + 1
                 break
             case 'prev':
-                if(count===1){
-                    count=201
-                }
-                count=count-1
+                count = (count === 1) ? 200 : count - 1
+                break
         }
-        getrequest()
-
+        getRequest()
     }
 }
+
 slideCard(btnNext, 'next')
 slideCard(btnPrev, 'prev')
 
 
-
 async function fetchData() {
     try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts')
         if (!response.ok) {
-            throw new Error('Ошибка при загрузке данных');
+            throw new Error('Ошибка при загрузке данных')
         }
-        const data = await response.json();
-        console.log(data);
+        const data = await response.json()
+        console.log(data)
     } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
+        console.error('Ошибка при загрузке данных:', error)
     }
 }
 
@@ -258,9 +249,6 @@ const citySearch = () => {
 };
 
 citySearch();
-
-
-
 
 
 
